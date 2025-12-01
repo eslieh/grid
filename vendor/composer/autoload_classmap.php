@@ -6,7 +6,14 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AsyncResult' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+    'Celery' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
+    'CeleryAbstract' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
+    'CeleryAdvanced' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
+    'CeleryException' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
+    'CeleryPublishException' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
+    'CeleryTimeoutException' => $vendorDir . '/wangjichao/swoole-celery/celery.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',

@@ -4,6 +4,7 @@ header('Content-Type: application/json; charset=utf-8');
 include '../../helper.php';
 require alias('@/config/conn.php');
 require alias('@/authorization.php');
+require alias('@/push_to_queue.php');
 
 $get_authorization = getallheaders()['Authorization'] ?? '';
 $token = str_replace('Bearer ', '', $get_authorization);
@@ -30,34 +31,61 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
     $task_type = mysqli_real_escape_string($conn, trim($data->task_type));
-
-    // Convert payload object to JSON
     $payloadJson = json_encode($data->payload);
-
-    // Escape properly
     $payload = mysqli_real_escape_string($conn, $payloadJson);
-
     $status = "initiated";
 
-    $insertQuery = mysqli_query(
-        $conn, 
-        "INSERT INTO tasks (user_id, task_type, payload, status) 
-         VALUES ('{$decodedToken['user_id']}', '$task_type', '$payload', '$status')"
-    );
+    // Start transaction
+    mysqli_begin_transaction($conn);
 
-    if ($insertQuery) {
+    try {
+        // Insert task
+        $insertQuery = mysqli_query(
+            $conn, 
+            "INSERT INTO tasks (user_id, task_type, payload, status) 
+             VALUES ('{$decodedToken['user_id']}', '$task_type', '$payload', '$status')"
+        );
+
+        if (!$insertQuery) {
+            throw new Exception("MySQL insert failed: " . mysqli_error($conn));
+        }
+
+        $task_id = mysqli_insert_id($conn);
+
+        // Push to queue
+        $responce =  pushToQueue(
+            $task_type,
+            $task_id,
+            $payloadJson
+        );
+        if (!$responce) {
+            http_response_code(500);
+            throw new Exception("Failed to push task to queue.");
+            die();
+        }
+
+        // Commit transaction
+        mysqli_commit($conn);
+
         echo json_encode([
             "status" => "success",
             "message" => "Task created successfully.",
-            "task_id" => mysqli_insert_id($conn)
+            "task_id" => $task_id
         ]);
-    } else {
+
+    } catch (Exception $e) {
+        // Rollback transaction
+        mysqli_rollback($conn);
+
         http_response_code(500);
         echo json_encode([
             "status" => "error",
             "message" => "Failed to create task.",
-            "mysql_error" => mysqli_error($conn)  // crucial for debugging
+            "error" => $e->getMessage()
         ]);
+
+        // Log the error
+        error_log("Task creation failed: " . $e->getMessage());
     }
 } else {
     http_response_code(405);

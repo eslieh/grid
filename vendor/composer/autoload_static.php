@@ -7,12 +7,17 @@ namespace Composer\Autoload;
 class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
 {
     public static $files = array (
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' =>
+        array (
+            'phpseclib\\' => 10,
+        ),
         'S' =>
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -24,6 +29,7 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
             'Psr\\Http\\Message\\' => 17,
             'Predis\\' => 7,
             'PhpOption\\' => 10,
+            'PhpAmqpLib\\' => 11,
         ),
         'G' =>
         array (
@@ -40,6 +46,10 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpseclib\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
         'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -64,6 +74,10 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
+        'PhpAmqpLib\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/php-amqplib/php-amqplib/PhpAmqpLib',
+        ),
         'GrahamCampbell\\ResultType\\' =>
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
@@ -79,7 +93,14 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
     );
 
     public static $classMap = array (
+        'AsyncResult' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'Celery' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
+        'CeleryAbstract' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
+        'CeleryAdvanced' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
+        'CeleryException' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
+        'CeleryPublishException' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
+        'CeleryTimeoutException' => __DIR__ . '/..' . '/wangjichao/swoole-celery/celery.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
