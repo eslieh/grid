@@ -26,6 +26,7 @@ $sql = "
         task_type,
         payload,
         status,
+        results,
         timestamp
     FROM tasks 
     WHERE user_id = '{$decodedToken['user_id']}'
@@ -55,6 +56,16 @@ if ($task_id){
     if (!empty($row['payload'])) {
         $row['payload'] = json_decode($row['payload'], true);
     }
+    if (!empty($row['results'])) {
+        $row['results'] = json_decode($row['results'], true);
+        
+        if (isset($row['results']['metadata']['processing_time'])) {
+            $row['results']['metadata']['processing_time'] = round((int)$row['results']['metadata']['processing_time'], 2);
+        }
+    }
+    
+    
+
     echo json_encode([
         "status" => "success",
         "message" => "Task retrieved successfully.",
