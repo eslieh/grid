@@ -17,16 +17,16 @@ $secret = $jwtSecret;
 function createAccessToken($userId, $email) {
     global $secret;
     $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
-    $payload =[
+    $payload = [
         'user_id' => $userId,
         'email' => $email,
         'iat' => time(),
-        'exp' => time() + 3600 // Token valid for 1 hour
+        'exp' => time() + (7 * 24 * 60 * 60) // Token valid for 1 week
     ];
-
     $jwt = JWT::encode($payload, $secret, 'HS256');
     return $jwt;
 }
+
 
 function verifyAccessToken($token) {
     global $secret;
