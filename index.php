@@ -5,6 +5,6 @@
     echo json_encode(
         [
             "status" => "success",
-            "message" => "Hello world!",
+            "message" => "Welcome to grid web service: authenticate via /api/auth/login.php",
         ]
     );
