@@ -65,7 +65,6 @@ function pushToQueue($task_type, $task_id, $payload) {
             ]
         );
     } catch (Exception $e) {
-        echo "Failed to push job to queue: " . $e->getMessage();
         return json_encode(
             [
                 'success' => false,

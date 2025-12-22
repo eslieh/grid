@@ -53,18 +53,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $task_id = mysqli_insert_id($conn);
 
         // Push to queue
-        $responce =  pushToQueue(
+        $responce =  json_decode(pushToQueue(
             $task_type,
             $task_id,
             $payloadJson
-        );
-        if (!$responce['success']) {
+        ));
+        if (!$response || !$response['success']) {
+            mysqli_rollback($conn);
             http_response_code(500);
-            $errror_message = $responce['message'];
-            throw new Exception(`Failed to push task to queue: $error_message`);
-            die();
-        }
 
+            $error_message = $response['message'] ?? 'Unknown queue error';
+            throw new Exception("Failed to push task to queue: $error_message");
+        }
         // Commit transaction
         mysqli_commit($conn);
 
