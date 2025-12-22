@@ -58,9 +58,19 @@ function pushToQueue($task_type, $task_id, $payload) {
         ];
         
         $redis->rpush('celery', json_encode($message));
-        return true;
+        return json_encode(
+            [
+                'success' => true,
+                'message' => "task queued successfully" 
+            ]
+        );
     } catch (Exception $e) {
         echo "Failed to push job to queue: " . $e->getMessage();
-        return false;
+        return json_encode(
+            [
+                'success' => false,
+                'message' => $e->getMessage()
+            ]
+        );
     }
 }

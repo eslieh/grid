@@ -58,9 +58,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $task_id,
             $payloadJson
         );
-        if (!$responce) {
+        if (!$responce['success']) {
             http_response_code(500);
-            throw new Exception("Failed to push task to queue.");
+            $errror_message = $responce['message'];
+            throw new Exception(`Failed to push task to queue: $error_message`);
             die();
         }
 
